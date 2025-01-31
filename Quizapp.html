@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.quiz-container {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#question {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#options {
+    margin-bottom: 20px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#score {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Simple Quiz App</h1>
+        <div id="quiz">
+            <div id="question"></div>
+            <div id="options"></div>
+            <button id="nextBtn" onclick="nextQuestion()">Next</button>
+        </div>
+        <div id="score">
+            <p>Your Score: <span id="scoreValue">0</span></p>
+        </div>
+    </div>
+    <script>
+        const questions = [
+    {
+        question: "What is the capital of France?",
+        options: ["Berlin", "Madrid", "Paris", "Lisbon"],
+        correctAnswer: 2
+    },
+    {
+        question: "What is 2 + 2?",
+        options: ["3", "4", "5", "6"],
+        correctAnswer: 1
+    },
+    {
+        question: "Which planet is known as the Red Planet?",
+        options: ["Earth", "Mars", "Jupiter", "Saturn"],
+        correctAnswer: 1
+    }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+function loadQuestion() {
+    const question = questions[currentQuestionIndex];
+    document.getElementById("question").textContent = question.question;
+
+    const optionsContainer = document.getElementById("options");
+    optionsContainer.innerHTML = "";
+    question.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.onclick = () => checkAnswer(index);
+        optionsContainer.appendChild(button);
+    });
+}
+
+function checkAnswer(selectedIndex) {
+    const correctIndex = questions[currentQuestionIndex].correctAnswer;
+    if (selectedIndex === correctIndex) {
+        score++;
+    }
+    document.getElementById("scoreValue").textContent = score;
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+    } else {
+        alert("Quiz over! Your final score is: " + score);
+        resetQuiz();
+    }
+}
+
+function resetQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    document.getElementById("scoreValue").textContent = score;
+    loadQuestion();
+}
+
+// Initialize the quiz
+loadQuestion();
+
+    </script>
+</body>
+</html>
